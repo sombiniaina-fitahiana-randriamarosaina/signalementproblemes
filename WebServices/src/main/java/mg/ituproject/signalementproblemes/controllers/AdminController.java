@@ -10,8 +10,10 @@ import mg.ituproject.signalementproblemes.http.MetaForForm;
 import mg.ituproject.signalementproblemes.http.Response;
 import mg.ituproject.signalementproblemes.models.Region;
 import mg.ituproject.signalementproblemes.models.Signalement;
+import mg.ituproject.signalementproblemes.models.TypeSignalement;
 import mg.ituproject.signalementproblemes.services.RegionService;
 import mg.ituproject.signalementproblemes.services.SignalementService;
+import mg.ituproject.signalementproblemes.services.TypeSignalementService;
 import mg.ituproject.signalementproblemes.utils.ControlException;
 import mg.ituproject.signalementproblemes.utils.FieldError;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,6 +41,9 @@ public class AdminController {
     @Autowired
     private RegionService regionServices;
     
+    @Autowired
+    private TypeSignalementService typeSignalementServices;
+    
     @GetMapping("/api/admin/regions")
     public ResponseEntity<Response> findAllRegion(){
         try {
@@ -47,6 +53,7 @@ public class AdminController {
         }
     }
     
+// Signalement
     @GetMapping("/api/admin/signalements/{idSignalement}")
     public ResponseEntity<Response> findSignalementById(@PathVariable(name = "idSignalement") String idSignalement){
         try {
@@ -114,5 +121,38 @@ public class AdminController {
             return new ResponseEntity<>(new Response(new Meta(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server error!"), null), HttpStatus.OK);
         }
     }
+            
+// TypeSignalement
+    @PostMapping("/api/admin/type-signalements")
+    public ResponseEntity<Response> newTypeSignalement(@RequestBody TypeSignalement typeSignalement){
+        try {
+            typeSignalement = typeSignalementServices.save(typeSignalement);
+            return new ResponseEntity<>(new Response(new Meta(HttpStatus.OK.value(), "ok"), typeSignalement), HttpStatus.OK);
+        } catch (ControlException ex) {
+            return new ResponseEntity<>(new Response(new MetaForForm(HttpStatus.BAD_REQUEST.value(), "Errors", ex.getErrors()), typeSignalement), HttpStatus.OK);
+        }catch (Exception ex) {
+            return new ResponseEntity<>(new Response(new Meta(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server error!"), null), HttpStatus.OK);
+        }
+    }
     
+    @GetMapping("/api/admin/type-signalements")
+    public ResponseEntity<Response> findAllTypeSignalement(){
+        try {
+            return new ResponseEntity<>(new Response(new Meta(HttpStatus.OK.value(), "ok"), typeSignalementServices.findAll()), HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(new Response(new Meta(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server error!"), null), HttpStatus.OK);
+        }
+    }
+    
+    @PutMapping("/api/admin/type-signalements")
+    public ResponseEntity<Response> updateTypeSignalement(@RequestBody TypeSignalement typeSignalement){
+        try {
+            typeSignalement = typeSignalementServices.update(typeSignalement);
+            return new ResponseEntity<>(new Response(new Meta(HttpStatus.OK.value(), "ok"), typeSignalement), HttpStatus.OK);
+        } catch (ControlException ex) {
+            return new ResponseEntity<>(new Response(new MetaForForm(HttpStatus.BAD_REQUEST.value(), "Errors", ex.getErrors()), typeSignalement), HttpStatus.OK);
+        }catch (Exception ex) {
+            return new ResponseEntity<>(new Response(new Meta(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server error!"), null), HttpStatus.OK);
+        }
+    }
 }
