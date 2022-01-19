@@ -5,9 +5,7 @@
  */
 package mg.ituproject.signalementproblemes.services;
 
-import java.util.Date;
 import java.util.List;
-import mg.ituproject.signalementproblemes.models.Region;
 import mg.ituproject.signalementproblemes.models.Signalement;
 import mg.ituproject.signalementproblemes.utils.ControlException;
 import org.hibernate.Criteria;

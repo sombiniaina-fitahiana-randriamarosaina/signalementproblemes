@@ -47,6 +47,19 @@ public class AdminController {
         }
     }
     
+    @GetMapping("/api/admin/signalements/{idSignalement}")
+    public ResponseEntity<Response> findSignalementById(@PathVariable(name = "idSignalement") String idSignalement){
+        try {
+            Signalement signalement = signalementServices.findById(idSignalement);
+            if(signalement == null){
+                return new ResponseEntity<>(new Response(new Meta(HttpStatus.BAD_REQUEST.value(), "Aucun Signalement Trouver"), null), HttpStatus.OK);
+            }
+            return new ResponseEntity<>(new Response(new Meta(HttpStatus.OK.value(), "ok"), signalement), HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(new Response(new Meta(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server error!"), null), HttpStatus.OK);
+        }
+    }
+    
     @GetMapping("/api/admin/signalements")
     public ResponseEntity<Response> findAllSignalement(){
         try {
@@ -88,6 +101,9 @@ public class AdminController {
             }
             else{
                 Signalement signalement = signalementServices.findById(idSignalement);
+                if(signalement == null){
+                    return new ResponseEntity<>(new Response(new Meta(HttpStatus.BAD_REQUEST.value(), "Id Signalement inexistant!"), null), HttpStatus.OK);
+                }
                 signalement.setRegion(region);
                 signalement = signalementServices.update(signalement);
                 return new ResponseEntity<>(new Response(new MetaForForm(HttpStatus.OK.value(), "updated"), signalement), HttpStatus.OK);
