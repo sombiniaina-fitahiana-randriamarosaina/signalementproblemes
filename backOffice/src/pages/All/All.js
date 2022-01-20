@@ -57,33 +57,29 @@ import { connect } from "react-redux";
         headerName: "Status",
         width: 120,
         renderCell: (params) => {
+          if(params.row.dateDebutConstruction == null ){
             return (
               <>
-               
-              <>undefined</>
+                nouveau
               </>
             );
+          }
+          if(params.row.dateFinConstruction !=null){
+            return(
+              <>
+                terminé
+              </>
+            )
+          }
+          else{
+            return(
+              <>
+                en cour
+              </>
+            )
+          }
           },
       },
-    // {
-    //   field: "action",
-    //   headerName: "Action",
-    //   width: 150,
-    //   renderCell: (params) => {
-    //     return (
-    //       <>
-           
-    //        <Link to={{ pathname: '/user/', state: { id: params.row.id} }}>
-    //          <button  className="userListEdit">Affecter</button>
-    //         </Link>
-           
-           
-
-
-    //       </>
-    //     );
-    //   },
-    // },
   ];
   if(redirect){
     return <Redirect to={{
@@ -101,13 +97,13 @@ import { connect } from "react-redux";
           disableSelectionOnClick
           columns={columns}
           pageSize={8}
-        // checkboxSelection
+ 
       />:<DataGrid
       rows={[]}
       disableSelectionOnClick
       columns={columns}
       pageSize={8}
-    // checkboxSelection
+  
   />
       }
       
