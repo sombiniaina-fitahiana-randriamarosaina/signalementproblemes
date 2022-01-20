@@ -1,0 +1,102 @@
+.modalContainer {
+   display: inline;
+    justify-content: center;
+    position: fixed;  
+    width: 100%;
+    flex-direction: column-reverse;
+    left: calc(0%); 
+    top: calc(0%); 
+    bottom: calc(0%);
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    /* opacity:0.8; */
+    overflow: auto;
+}
+.butn{
+    margin: 10px;
+    height: 40px;
+    width:100px;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #fefefe;
+    text-align: center;
+    cursor: pointer;
+    background-color: blue;
+    margin-left: 300px; 
+}
+.cancel{
+    left :auto;
+    margin-left : 670px;
+    margin-top: 10px;
+    justify-content: center;
+}
+.ccc{
+    display: flex;
+    width:  700px;
+    position: fixed;
+    /* background-color: #5cb85c; */
+    background-color: #f3f3f3;
+    opacity:1;
+    /* color: white; */
+    opacity:1;
+    border: 1px solid #888;
+    top: 75px;
+    max-height:700px;
+    min-height: 500px;
+    left: calc(50% - 250px);
+    justify-content:center;
+    flex-direction: column;
+    overflow: auto;
+
+
+}
+.cccChild{
+    display: flex;
+    width:  700px;
+    height: 400px;
+    position: fixed;
+    background-color: #f3f3f3;
+    opacity:1;
+    border: 1px solid #888;
+    top: 75px;
+    max-height:700px;
+    left: calc(50% - 250px);
+    justify-content:center;
+    flex-direction: column;
+    overflow: auto;
+}
+.extension{
+    display: flex;
+    position: fixed;
+    background-color: #fefefe;
+    border: 1px solid #888;
+    /* border: 5px solid red; */
+    margin-top: 10px;
+    top: 75px;
+    max-height:700px;
+    left: 0px;
+    justify-content:center;
+    flex-direction: column;
+    overflow: auto;
+
+}
+form{
+    display: flex;
+    /* border: 5px solid rgb(130, 139, 130); */
+    justify-content: center; 
+    flex-direction: column;
+  
+}
+input{
+
+   opacity: 1;
+}
+.champ{
+
+    max-width: 400px;
+   justify-content: center;
+    /* border: 5px solid green; */
+    width: auto;
+    margin-left: 50px; 
+    
+}
