@@ -6,6 +6,8 @@
 package mg.ituproject.signalementproblemes.services;
 
 import java.util.Date;
+import java.util.List;
+import mg.ituproject.signalementproblemes.models.Region;
 import mg.ituproject.signalementproblemes.models.Signalement;
 import mg.ituproject.signalementproblemes.models.Utilisateur;
 import mg.ituproject.signalementproblemes.utils.ControlException;
@@ -22,6 +24,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UtilisateurService extends BaseService{
+    public List<Utilisateur> findAll() throws ControlException{
+        try(Session session = this.getSessioFactory().openSession()) {
+            Criteria criteria = session.createCriteria(Utilisateur.class);
+            return criteria.list();
+        }
+    }
+    
     public Utilisateur login(Utilisateur utilisateur) throws ControlException{
         try(Session session = this.getSessioFactory().openSession()) {
             Criteria criteria = session.createCriteria(Utilisateur.class);

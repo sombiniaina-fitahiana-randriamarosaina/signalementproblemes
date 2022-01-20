@@ -49,7 +49,7 @@ public class AdminController {
     @Autowired
     private TypeSignalementService typeSignalementServices;
     
-//  Login
+//  Utilisateur
     @GetMapping("/api/admin/login")
     public ResponseEntity<Response> login(@RequestBody Utilisateur utilisateur, BindingResult bindingResult){
         try {
@@ -69,6 +69,15 @@ public class AdminController {
             }
         } catch (ControlException ex) {
             return new ResponseEntity<>(new Response(new MetaForForm(HttpStatus.BAD_REQUEST.value(), "Errors", ex.getErrors()), utilisateur), HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(new Response(new Meta(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server error!"), null), HttpStatus.OK);
+        }
+    }
+    
+    @GetMapping("/api/admin/utilisateurs")
+    public ResponseEntity<Response> findAllUtilisateur(){
+        try {
+            return new ResponseEntity<>(new Response(new MetaForForm(HttpStatus.OK.value(), "ok"), utilisateurServices.findAll()), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(new Response(new Meta(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server error!"), null), HttpStatus.OK);
         }
