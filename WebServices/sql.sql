@@ -58,3 +58,7 @@ insert into typesignalement(libelleTypeSignalement) values ('Route abimee'), ('o
 insert into utilisateur (nomUtilisateur, motDePasse, role, idRegion) values ('Admin Analamanga', '123456', 'admin', 'REG1');
 
 insert into utilisateur (nomUtilisateur, motDePasse, role) values ('utilisateur', '123456', 'utilisateur');
+
+
+create view stat_nbsignalement_region as 
+select r.nomRegion, coalesce(stat.nombre, 0) nombre from region r natural left join (select idregion, count(*) nombre from signalement where idregion is not null group by idregion) stat;

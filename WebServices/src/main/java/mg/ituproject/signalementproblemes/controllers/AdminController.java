@@ -14,6 +14,7 @@ import mg.ituproject.signalementproblemes.models.TypeSignalement;
 import mg.ituproject.signalementproblemes.models.Utilisateur;
 import mg.ituproject.signalementproblemes.services.RegionService;
 import mg.ituproject.signalementproblemes.services.SignalementService;
+import mg.ituproject.signalementproblemes.services.StatServices;
 import mg.ituproject.signalementproblemes.services.TypeSignalementService;
 import mg.ituproject.signalementproblemes.services.UtilisateurService;
 import mg.ituproject.signalementproblemes.utils.ControlException;
@@ -48,6 +49,9 @@ public class AdminController {
     
     @Autowired
     private TypeSignalementService typeSignalementServices;
+    
+    @Autowired
+    private StatServices statServices;
     
 //  Utilisateur
     @GetMapping("/api/admin/login")
@@ -225,6 +229,15 @@ public class AdminController {
         } catch (ControlException ex) {
             return new ResponseEntity<>(new Response(new MetaForForm(HttpStatus.BAD_REQUEST.value(), "Errors", ex.getErrors()), typeSignalement), HttpStatus.OK);
         }catch (Exception ex) {
+            return new ResponseEntity<>(new Response(new Meta(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server error!"), null), HttpStatus.OK);
+        }
+    }
+    
+    @GetMapping("/api/admin/statistiques/nombre-signalements-par-region")
+    public ResponseEntity<Response> findStatNombreSignalementRegion(){
+        try {
+            return new ResponseEntity<>(new Response(new Meta(HttpStatus.OK.value(), "ok"), statServices.findStatNombreSignalementRegion()), HttpStatus.OK);
+        } catch (Exception ex) {
             return new ResponseEntity<>(new Response(new Meta(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server error!"), null), HttpStatus.OK);
         }
     }
