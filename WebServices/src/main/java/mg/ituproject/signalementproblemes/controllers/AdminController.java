@@ -11,9 +11,11 @@ import mg.ituproject.signalementproblemes.http.Response;
 import mg.ituproject.signalementproblemes.models.Region;
 import mg.ituproject.signalementproblemes.models.Signalement;
 import mg.ituproject.signalementproblemes.models.TypeSignalement;
+import mg.ituproject.signalementproblemes.models.Utilisateur;
 import mg.ituproject.signalementproblemes.services.RegionService;
 import mg.ituproject.signalementproblemes.services.SignalementService;
 import mg.ituproject.signalementproblemes.services.TypeSignalementService;
+import mg.ituproject.signalementproblemes.services.UtilisateurService;
 import mg.ituproject.signalementproblemes.utils.ControlException;
 import mg.ituproject.signalementproblemes.utils.FieldError;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AdminController {
     @Autowired
+    private UtilisateurService utilisateurServices;
+    
+    @Autowired
     private SignalementService signalementServices;
     
     @Autowired
@@ -43,6 +48,31 @@ public class AdminController {
     
     @Autowired
     private TypeSignalementService typeSignalementServices;
+    
+//  Login
+    @GetMapping("/api/admin/login")
+    public ResponseEntity<Response> login(@RequestBody Utilisateur utilisateur, BindingResult bindingResult){
+        try {
+            if(bindingResult.hasErrors()){
+                MetaForForm meta = new MetaForForm(HttpStatus.BAD_REQUEST.value(), "Errors");
+                for (org.springframework.validation.FieldError fieldError : bindingResult.getFieldErrors()) {
+                    meta.addFieldError(new FieldError(fieldError.getField(), fieldError.getDefaultMessage()));
+                }
+                return new ResponseEntity<>(new Response(meta, utilisateur), HttpStatus.OK);
+            }
+            else{
+                utilisateur = utilisateurServices.login(utilisateur);
+                if(utilisateur.getRole().compareToIgnoreCase("admin") == 0){
+                    return new ResponseEntity<>(new Response(new MetaForForm(HttpStatus.OK.value(), "connected"), utilisateur), HttpStatus.OK);
+                }
+                return new ResponseEntity<>(new Response(new MetaForForm(HttpStatus.FORBIDDEN.value(), "Vous n'etes pas un Admin"), utilisateur), HttpStatus.OK);
+            }
+        } catch (ControlException ex) {
+            return new ResponseEntity<>(new Response(new MetaForForm(HttpStatus.BAD_REQUEST.value(), "Errors", ex.getErrors()), utilisateur), HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(new Response(new Meta(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server error!"), null), HttpStatus.OK);
+        }
+    }
     
 //  Region
     @PostMapping("/api/admin/regions")
