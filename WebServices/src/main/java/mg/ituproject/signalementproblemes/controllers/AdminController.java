@@ -44,11 +44,36 @@ public class AdminController {
     @Autowired
     private TypeSignalementService typeSignalementServices;
     
+//  Region
+    @PostMapping("/api/admin/regions")
+    public ResponseEntity<Response> newRegion(@RequestBody Region region){
+        try {
+            region = regionServices.save(region);
+            return new ResponseEntity<>(new Response(new Meta(HttpStatus.OK.value(), "ok"), region), HttpStatus.OK);
+        } catch (ControlException ex) {
+            return new ResponseEntity<>(new Response(new MetaForForm(HttpStatus.BAD_REQUEST.value(), "Errors", ex.getErrors()), region), HttpStatus.OK);
+        }catch (Exception ex) {
+            return new ResponseEntity<>(new Response(new Meta(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server error!"), null), HttpStatus.OK);
+        }
+    }
+    
     @GetMapping("/api/admin/regions")
     public ResponseEntity<Response> findAllRegion(){
         try {
             return new ResponseEntity<>(new Response(new Meta(HttpStatus.OK.value(), "ok"), regionServices.findAll()), HttpStatus.OK);
         } catch (Exception ex) {
+            return new ResponseEntity<>(new Response(new Meta(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server error!"), null), HttpStatus.OK);
+        }
+    }
+    
+    @PutMapping("/api/admin/regions")
+    public ResponseEntity<Response> updateRegion(@RequestBody Region region){
+        try {
+            region = regionServices.update(region);
+            return new ResponseEntity<>(new Response(new Meta(HttpStatus.OK.value(), "ok"), region), HttpStatus.OK);
+        } catch (ControlException ex) {
+            return new ResponseEntity<>(new Response(new MetaForForm(HttpStatus.BAD_REQUEST.value(), "Errors", ex.getErrors()), region), HttpStatus.OK);
+        }catch (Exception ex) {
             return new ResponseEntity<>(new Response(new Meta(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server error!"), null), HttpStatus.OK);
         }
     }

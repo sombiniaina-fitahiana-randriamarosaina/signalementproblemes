@@ -6,7 +6,6 @@
 package mg.ituproject.signalementproblemes.services;
 
 import java.util.List;
-import mg.ituproject.signalementproblemes.models.Signalement;
 import mg.ituproject.signalementproblemes.models.TypeSignalement;
 import mg.ituproject.signalementproblemes.utils.ControlException;
 import mg.ituproject.signalementproblemes.utils.FieldError;
