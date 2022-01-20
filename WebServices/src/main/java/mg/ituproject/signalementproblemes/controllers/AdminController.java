@@ -79,6 +79,15 @@ public class AdminController {
     }
     
 // Signalement
+    @GetMapping("/api/admin/signalements/regions/{idRegion}")
+    public ResponseEntity<Response> findSignalementByIdRegion(@PathVariable(name = "idRegion") String idRegion){
+        try {
+            return new ResponseEntity<>(new Response(new Meta(HttpStatus.OK.value(), "ok"), signalementServices.findByIdRegion(idRegion)), HttpStatus.OK);
+            
+        } catch (Exception ex) {
+            return new ResponseEntity<>(new Response(new Meta(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server error!"), null), HttpStatus.OK);
+        }
+    }
     @GetMapping("/api/admin/signalements/{idSignalement}")
     public ResponseEntity<Response> findSignalementById(@PathVariable(name = "idSignalement") String idSignalement){
         try {

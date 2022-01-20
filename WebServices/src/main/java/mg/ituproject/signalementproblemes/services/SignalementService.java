@@ -6,6 +6,7 @@
 package mg.ituproject.signalementproblemes.services;
 
 import java.util.List;
+import mg.ituproject.signalementproblemes.models.Region;
 import mg.ituproject.signalementproblemes.models.Signalement;
 import mg.ituproject.signalementproblemes.utils.ControlException;
 import org.hibernate.Criteria;
@@ -48,6 +49,14 @@ public class SignalementService extends BaseService{
     public Signalement findById(String id) throws ControlException{
         try(Session session = this.getSessioFactory().openSession()) {
             return session.get(Signalement.class, id);
+        }
+    }
+    
+    public List<Signalement> findByIdRegion(String idRegion) throws ControlException{
+        try(Session session = this.getSessioFactory().openSession()) {
+            Criteria criteria = session.createCriteria(Signalement.class);
+            criteria.add(Restrictions.eq("region.id", idRegion));
+            return criteria.list();
         }
     }
     
