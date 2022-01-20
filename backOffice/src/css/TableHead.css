@@ -1,0 +1,28 @@
+.table-responsive{
+    display: flex;
+    /* background-color: red; */
+}
+.searchinput:focus {
+    outline: none;
+}
+.searchinput{
+    border: none;
+    width: 100px;
+}
+.headerInput{
+    display: flex;
+    /* background-color: red; */
+    justify-content: space-between;
+    width: 100%;
+}
+::placeholder {
+    color: rgb(2, 2, 2);
+    padding: 5px;
+    font-size: 18px;
+   
+    font-weight: bold;
+    /* display: flex; */
+    /* align-items: center; */
+
+  }
+  
