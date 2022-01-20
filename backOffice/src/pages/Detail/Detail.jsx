@@ -21,7 +21,7 @@ import {
   
       setId(location.state.id);
       setSignalement( props.liste.filter( elem=> elem.id == location.state.id));
-      console.log('sign',signalement);
+     
   
     },[props.liste]);
   
