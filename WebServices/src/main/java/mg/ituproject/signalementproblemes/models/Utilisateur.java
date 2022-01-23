@@ -25,8 +25,8 @@ public class Utilisateur {
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(nullable = false, updatable = false, name="idutilisateur")
     protected String id;
     
-    @Column(name = "nomutilisateur")
-    protected String nom;
+    @Column(name = "emailutilisateur")
+    protected String email;
     
     @Column(name = "motdepasse")
     protected String motDePasse;
@@ -46,12 +46,12 @@ public class Utilisateur {
         this.id = id;
     }
 
-    public String getNom() {
-        return nom;
+    public String getEmail() {
+        return email;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getMotDePasse() {

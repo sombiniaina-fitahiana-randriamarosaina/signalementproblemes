@@ -62,3 +62,10 @@ insert into utilisateur (nomUtilisateur, motDePasse, role) values ('utilisateur'
 
 create view stat_nbsignalement_region as 
 select r.nomRegion, coalesce(stat.nombre, 0) nombre from region r natural left join (select idregion, count(*) nombre from signalement where idregion is not null group by idregion) stat;
+
+
+alter table utilisateur rename column nomutilisateur to emailutilisateur;
+
+update utilisateur set emailutilisateur = 'admin@analamanga.mg' where idutilisateur = 'UTI1';
+
+update utilisateur set emailutilisateur = 'utilisateur@analamanga.mg' where idutilisateur = 'UTI2';

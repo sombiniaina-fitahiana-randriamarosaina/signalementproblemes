@@ -54,6 +54,27 @@ public class UtilisateurController {
         }
     }
     
+    @PostMapping("/api/utilisateur/inscription")
+    public ResponseEntity<Response> inscription(@RequestBody Utilisateur utilisateur, BindingResult bindingResult){
+         try {
+            if(bindingResult.hasErrors()){
+                MetaForForm meta = new MetaForForm(HttpStatus.BAD_REQUEST.value(), "Errors");
+                for (org.springframework.validation.FieldError fieldError : bindingResult.getFieldErrors()) {
+                    meta.addFieldError(new FieldError(fieldError.getField(), fieldError.getDefaultMessage()));
+                }
+                return new ResponseEntity<>(new Response(meta, utilisateur), HttpStatus.OK);
+            }
+            else{
+                Utilisateur utilisateurconnected = services.save(utilisateur);
+                return new ResponseEntity<>(new Response(new MetaForForm(HttpStatus.OK.value(), "Utilisateur Inscrit"), utilisateurconnected), HttpStatus.OK);
+            }
+        } catch (ControlException ex) {
+            return new ResponseEntity<>(new Response(new MetaForForm(HttpStatus.BAD_REQUEST.value(), "Errors", ex.getErrors()), utilisateur), HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(new Response(new Meta(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server error!"), null), HttpStatus.OK);
+        }
+    }
+    
     @PostMapping("/api/utilisateur/signalements")
     public ResponseEntity<Response> addSignalement(@RequestBody Signalement signalement, BindingResult bindingResult){
         try {
