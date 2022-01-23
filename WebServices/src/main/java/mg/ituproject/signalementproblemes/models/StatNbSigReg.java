@@ -19,25 +19,25 @@ import javax.persistence.Table;
 public class StatNbSigReg {
     // Fields
     @Id @Column(name="nomregion")
-    protected String x;
+    protected String name;
     
     @Column(name = "nombre")
-    protected String y;
+    protected String nombre;
     
     // Setters && Getters
-    public String getX() {
-        return x;
+    public String getName() {
+        return name;
     }
 
-    public void setX(String x) {
-        this.x = x;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getY() {
-        return y;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setY(String y) {
-        this.y = y;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 }
